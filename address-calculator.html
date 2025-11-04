@@ -3,18 +3,69 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Address Calculator</title>
+  <title>Address Number Calculator</title>
   <style>
-    body { font-family: sans-serif; text-align: center; margin-top: 40px; }
-    input, button { padding: 10px; margin: 5px; }
-    #result { margin-top: 10px; font-weight: bold; }
+    body {
+      font-family: system-ui, sans-serif;
+      background: #fafafa;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .calculator {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: #333;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    button:hover {
+      background: #555;
+    }
+
+    #result {
+      margin-top: 15px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #222;
+    }
   </style>
 </head>
 <body>
-  <h3>Address Number Calculator</h3>
-  <input type="text" id="addressInput" placeholder="Enter your address" />
-  <button onclick="calculateAddressNumber()">Calculate</button>
-  <p id="result"></p>
+  <div class="calculator">
+    <h2>Address Number Calculator</h2>
+    <p>Enter your full address (e.g. <em>6341 N Madison Ave Apt 1S</em>):</p>
+    <input id="addressInput" type="text" placeholder="Your address here..." />
+    <button onclick="calculateAddressNumber()">Calculate</button>
+    <div id="result"></div>
+  </div>
 
   <script>
     function addressToSingleDigit(address) {
@@ -35,7 +86,7 @@
       const unitMatch = normalized.match(unitPattern);
       const mainNumberMatch = normalized.match(/\b\d+\b/);
 
-      if (!mainNumberMatch) return "Invalid address";
+      if (!mainNumberMatch) return "Invalid address format.";
 
       const mainNumber = mainNumberMatch[0];
       let unitNumber = "";
@@ -50,7 +101,7 @@
       }
 
       const combined = `${mainNumber}${unitNumber}${unitLetterValue}`;
-      if (!combined) return "Invalid address";
+      if (!combined) return "Invalid address.";
 
       let sum = combined.split('').reduce((acc, n) => acc + parseInt(n, 10), 0);
       while (sum > 9) {
@@ -61,8 +112,15 @@
 
     function calculateAddressNumber() {
       const input = document.getElementById("addressInput").value;
+      const resultElement = document.getElementById("result");
+
+      if (!input.trim()) {
+        resultElement.textContent = "Please enter an address.";
+        return;
+      }
+
       const result = addressToSingleDigit(input);
-      document.getElementById("result").innerText = `Result: ${result}`;
+      resultElement.textContent = `Result: ${result}`;
     }
   </script>
 </body>
