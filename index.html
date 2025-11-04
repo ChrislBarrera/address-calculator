@@ -5,123 +5,56 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Address Number Calculator</title>
   <style>
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #2563eb;
+      --bg: #f9fafb;
+      --text: #111827;
+      --border: #e5e7eb;
+    }
+
     body {
-      font-family: system-ui, sans-serif;
-      background: #fafafa;
+      font-family: "Inter", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
       height: 100vh;
       margin: 0;
+      padding: 0;
     }
 
-    .calculator {
-      background: #fff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    .container {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+      padding: 2rem;
       width: 90%;
-      max-width: 400px;
+      max-width: 450px;
       text-align: center;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .container:hover {
+      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      color: var(--primary-dark);
+    }
+
+    p {
+      margin-bottom: 1rem;
+      color: #4b5563;
     }
 
     input {
       width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      font-size: 1rem;
-    }
-
-    button {
-      margin-top: 15px;
-      padding: 10px 20px;
-      background: #333;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-
-    button:hover {
-      background: #555;
-    }
-
-    #result {
-      margin-top: 15px;
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: #222;
-    }
-  </style>
-</head>
-<body>
-  <div class="calculator">
-    <h2>Address Number Calculator</h2>
-    <p>Enter your full address (e.g. <em>6341 N Madison Ave Apt 1S</em>):</p>
-    <input id="addressInput" type="text" placeholder="Your address here..." />
-    <button onclick="calculateAddressNumber()">Calculate</button>
-    <div id="result"></div>
-  </div>
-
-  <script>
-    function addressToSingleDigit(address) {
-      const letterMap = {
-        A: 1, J: 1, S: 1,
-        B: 2, K: 2, T: 2,
-        C: 3, L: 3, U: 3,
-        D: 4, M: 4, V: 4,
-        E: 5, N: 5, W: 5,
-        F: 6, O: 6, X: 6,
-        G: 7, P: 7, Y: 7,
-        H: 8, Q: 8, Z: 8,
-        I: 9, R: 9
-      };
-
-      const normalized = address.replace(/\s+/g, ' ').trim();
-      const unitPattern = /(Apt|Unit|Suite|#)\s*(\d+)\s*([A-Za-z])?/i;
-      const unitMatch = normalized.match(unitPattern);
-      const mainNumberMatch = normalized.match(/\b\d+\b/);
-
-      if (!mainNumberMatch) return "Invalid address format.";
-
-      const mainNumber = mainNumberMatch[0];
-      let unitNumber = "";
-      let unitLetterValue = "";
-
-      if (unitMatch) {
-        unitNumber = unitMatch[2] || "";
-        const unitLetter = unitMatch[3] ? unitMatch[3].toUpperCase() : "";
-        if (unitLetter && letterMap[unitLetter]) {
-          unitLetterValue = letterMap[unitLetter];
-        }
-      }
-
-      const combined = `${mainNumber}${unitNumber}${unitLetterValue}`;
-      if (!combined) return "Invalid address.";
-
-      let sum = combined.split('').reduce((acc, n) => acc + parseInt(n, 10), 0);
-      while (sum > 9) {
-        sum = sum.toString().split('').reduce((a, n) => a + parseInt(n, 10), 0);
-      }
-      return sum;
-    }
-
-    function calculateAddressNumber() {
-      const input = document.getElementById("addressInput").value;
-      const resultElement = document.getElementById("result");
-
-      if (!input.trim()) {
-        resultElement.textContent = "Please enter an address.";
-        return;
-      }
-
-      const result = addressToSingleDigit(input);
-      resultElement.textContent = `Result: ${result}`;
-    }
-  </script>
-</body>
-</html>
+      padding: 0.75rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-si
